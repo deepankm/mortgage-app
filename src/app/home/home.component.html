@@ -9,11 +9,11 @@
     </mat-card-content>
   </mat-card> -->
 
-  <mat-form-field>
+  <!-- <mat-form-field>
     <input matInput placeholder="Loan ID">
   </mat-form-field>
   <button mat-raised-button color="accent" (click)="onSubmit()">Submit</button>
-
+ -->
 
   <app-loader [isLoading]="isLoading" size="1.5"></app-loader>
   <mat-accordion *ngIf="loanDetails">
@@ -23,8 +23,8 @@
           Loan Details
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-grid-list *ngIf="loanTiles" cols="4" rowHeight="100px">
-          <mat-grid-tile  [colspan]="4" [rowspan]="1">
+      <mat-grid-list *ngIf="loanTiles" cols="4" rowHeight="75px">
+          <mat-grid-tile  [colspan]="4" [rowspan]="1" [style.background]="'#F8F8F8'">
             <h4>{{loanDetails.borrower.firstName + " "}}{{loanDetails.borrower.lastName + " "}}</h4>
             <p>{{loanDetails.borrower.address}}</p>
             <p>{{loanDetails.borrower.city}}</p>
@@ -51,26 +51,26 @@
         <ng-container *ngIf="item.documentType==='Standard Form'">
           <h3 mat-subheader>eSign Documents</h3>
           <mat-list-item *ngIf="item.borrower">
-            <button mat-button color="accent" (click)="onSubmit()">eSign</button>
-            <h4 mat-line>{{ item.coBorrower.firstName + " "}}{{ item.coBorrower.lastName }}</h4>
+            <button mat-button color="accent" (click)="eSignDocument()">eSign</button>
+            <h4 mat-line>{{ item.coBorrower ? item.coBorrower.firstName : '' + " "}}{{ item.coBorrower ? item.coBorrower.lastName : '' }}</h4>
             <p mat-line> {{ item.issuedDate | date}} </p>
           </mat-list-item>
           <mat-list-item *ngIf="item.coBorrower">
-            <button mat-button color="accent" (click)="onSubmit()">eSign</button>
-            <h4 mat-line>{{ item.coBorrower.firstName + " "}}{{ item.coBorrower.lastName }}</h4>
+            <button mat-button color="accent" (click)="eSignDocument()">eSign</button>
+            <h4 mat-line>{{ item.coBorrower ? item.coBorrower.firstName : '' + " "}}{{ item.coBorrower ? item.coBorrower.lastName : '' }}</h4>
             <p mat-line> {{ item.issuedDate | date}} </p>
           </mat-list-item>
         </ng-container>
         <ng-container *ngIf="item.documentType==='Needed'">
           <h3 mat-subheader>Fax or Upload Documents</h3>
           <mat-list-item *ngIf="item.borrower">
-            <button mat-button color="accent" (click)="onSubmit()">Upload</button>
-            <h4 mat-line>{{ item.coBorrower.firstName + " "}}{{ item.coBorrower.lastName }}</h4>
+            <button mat-button color="accent" (click)="openDialog('Test file')">Upload</button>
+            <h4 mat-line>{{ item.coBorrower ? item.coBorrower.firstName : '' + " "}}{{ item.coBorrower ? item.coBorrower.lastName : '' }}</h4>
             <p mat-line> {{ item.issuedDate | date}} </p>
           </mat-list-item>
           <mat-list-item *ngIf="item.coBorrower">
-            <button mat-button color="accent" (click)="onSubmit()">Upload</button>
-            <h4 mat-line>{{ item.coBorrower.firstName + " "}}{{ item.coBorrower.lastName }}</h4>
+            <button mat-button color="accent" (click)="openDialog()">Upload</button>
+            <h4 mat-line>{{ item.coBorrower ? item.coBorrower.firstName : '' + " "}}{{ item.coBorrower.lastName }}</h4>
             <p mat-line> {{ item.issuedDate | date}} </p>
           </mat-list-item>
         </ng-container>

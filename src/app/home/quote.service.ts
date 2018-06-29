@@ -4,12 +4,22 @@ import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 const routes = {
-  quote: (c: RandomQuoteContext) => `/jokes/random?category=${c.category}`
+  loanDetails: (c: LoanContext) =>
+  `borrower/loan/${c.loanId}`,
+  eSign: (c: eSignContext) =>
+  `borrower/loan/${c.loanId}/actionSign/${c.documentId}/attachments/${c.attachmentId}`
 };
 
-export interface RandomQuoteContext {
+
+export interface LoanContext {
   // The quote's category: 'dev', 'explicit'...
-  category: string;
+  loanId: string;
+}
+
+export interface eSignContext {
+  loanId: string;
+  documentId: string;
+  attachmentId: string;
 }
 
 @Injectable()
@@ -17,14 +27,26 @@ export class QuoteService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getRandomQuote(context: RandomQuoteContext): Observable<string> {
+  getLoanDetails(context: LoanContext): Observable<string> {
     return this.httpClient
       .cache()
-      .get(routes.quote(context))
+      .get(routes.loanDetails(context))
       .pipe(
         map((body: any) => body.value),
         catchError(() => of('Error, could not load joke :-('))
       );
   }
+
+  eSignDocument(context: eSignContext): Observable<string> {
+    return this.httpClient
+      .cache()
+      .get(routes.eSign(context))
+      .pipe(
+        map((body: any) => body.viewUrl),
+        catchError(() => of('Could not eSign'))
+      );
+  }
+
+
 
 }
